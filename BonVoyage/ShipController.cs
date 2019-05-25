@@ -89,8 +89,15 @@ namespace BonVoyage
         internal override List<DisplayedSystemCheckResult> GetDisplayedSystemCheckResults()
         {
             base.GetDisplayedSystemCheckResults();
-
             DisplayedSystemCheckResult result = new DisplayedSystemCheckResult
+            {
+                Toggle = false,
+                Label = "Mode",
+                Text = "Boat",
+            };
+            displayedSystemCheckResults.Add(result);
+
+            result = new DisplayedSystemCheckResult
             {
                 Toggle = false,
                 Label = Localizer.Format("#LOC_BV_Control_AverageSpeed"),

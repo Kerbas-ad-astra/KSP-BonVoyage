@@ -33,7 +33,7 @@ namespace BonVoyage
         /// </summary>
         // localize, when ship part is ready
         [KSPField(isPersistant = true, guiActive = false, guiActiveEditor = false, guiName = "#LOC_BV_ContextMenu_VT", category = "Bon Voyage")]
-        [UI_ChooseOption(scene = UI_Scene.None, options = new[] { "0", "1" }, display = new[] { "#LOC_BV_ContextMenu_VT_Rover", "#LOC_BV_ContextMenu_VT_Ship" })]
+        [UI_ChooseOption(scene = UI_Scene.All, options = new[] { "0", "1" }, display = new[] { "#LOC_BV_ContextMenu_VT_Rover", "#LOC_BV_ContextMenu_VT_Ship" })]
         public string vesselType = "0";
 
         /// <summary>

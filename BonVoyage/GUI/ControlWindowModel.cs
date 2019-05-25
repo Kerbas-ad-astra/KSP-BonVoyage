@@ -194,7 +194,7 @@ namespace BonVoyage
         {
             if (currentController != null)
             {
-                if (currentController.vessel.situation == Vessel.Situations.LANDED)
+                if ((currentController.GetControllerType() ==  0 && currentController.vessel.situation == Vessel.Situations.LANDED) || (currentController.GetControllerType() == 1 && currentController.vessel.situation == Vessel.Situations.SPLASHED))
                 {
                     if (!currentController.CheckConnection())
                         return;
@@ -223,7 +223,7 @@ namespace BonVoyage
         {
             if (currentController != null)
             {
-                if (currentController.vessel.situation == Vessel.Situations.LANDED)
+                if ((currentController.GetControllerType() == 0 && currentController.vessel.situation == Vessel.Situations.LANDED) || (currentController.GetControllerType() == 1 && currentController.vessel.situation == Vessel.Situations.SPLASHED))
                 {
                     MapView.EnterMapView();
                     BonVoyage.Instance.MapMode = true;
