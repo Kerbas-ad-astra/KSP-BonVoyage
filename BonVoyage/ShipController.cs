@@ -94,6 +94,7 @@ namespace BonVoyage
                 Toggle = false,
                 Label = "Mode",
                 Text = "Boat",
+                Tooltip = ""
             };
             displayedSystemCheckResults.Add(result);
 
