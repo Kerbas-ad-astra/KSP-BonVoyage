@@ -1,45 +1,48 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
+﻿using System.Collections.Generic;
 
 namespace BonVoyage
 {
-	internal class Hex : IHasNeighbours<Hex> {
-		private double latitude;
-		public double Latitude { get { return latitude; } }
+    internal class Hex : IHasNeighbours<Hex>
+    {
+        private double latitude;
+        internal double Latitude { get { return latitude; } }
 
-		private double longitude;
-		public double Longitude { get { return longitude; } }
+        private double longitude;
+        internal double Longitude { get { return longitude; } }
 
-		public double altitude;
-		public double Altitude { get { return altitude; } }
+        internal double altitude;
+        internal double Altitude { get { return altitude; } }
 
-		private double bearing;
-		public double Bearing { get { return bearing; } }
+        private double bearing;
+        internal double Bearing { get { return bearing; } }
 
-		private int x;
-		public int X { get { return x; } }
+        private int x;
+        internal int X { get { return x; } }
 
-		private int y;
-		public int Y { get { return y; } }
+        private int y;
+        internal int Y { get { return y; } }
 
-		private PathFinder parent;
+        private PathFinder parent;
 
-		public Hex(double latitude, double longitude, double altitude, double bearing, int x, int y, PathFinder parent) {
-			this.latitude = latitude;
-			this.longitude = longitude;
-			this.altitude = altitude;
-			this.bearing = bearing;
-			this.x = x;
-			this.y = y;
-			this.parent = parent;
-		}
+        internal Hex(double latitude, double longitude, double altitude, double bearing, int x, int y, PathFinder parent)
+        {
+            this.latitude = latitude;
+            this.longitude = longitude;
+            this.altitude = altitude;
+            this.bearing = bearing;
+            this.x = x;
+            this.y = y;
+            this.parent = parent;
+        }
 
-		public IEnumerable<Hex> Neighbours {
-			get {
-				return parent.GetNeighbours (this.x, this.y);
-			}
-		}
-	}
+        public IEnumerable<Hex> Neighbours
+        {
+            get
+            {
+                return parent.GetNeighbours(this.x, this.y);
+            }
+        }
+
+    }
+
 }
