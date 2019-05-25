@@ -92,15 +92,6 @@ namespace BonVoyage
             DisplayedSystemCheckResult result = new DisplayedSystemCheckResult
             {
                 Toggle = false,
-                Label = "Mode",
-                Text = "Boat",
-                Tooltip = ""
-            };
-            displayedSystemCheckResults.Add(result);
-
-            result = new DisplayedSystemCheckResult
-            {
-                Toggle = false,
                 Label = Localizer.Format("#LOC_BV_Control_AverageSpeed"),
                 Text = averageSpeed.ToString("F") + " m/s",
                 Tooltip =
@@ -111,7 +102,7 @@ namespace BonVoyage
                         + (SpeedReduction > 0 ? Localizer.Format("#LOC_BV_Control_PowerPenalty") + ": " + (SpeedReduction > 75 ? "100" : SpeedReduction.ToString("F")) + "%\n" : "")
                         + Localizer.Format("#LOC_BV_Control_SpeedAtNight") + ": " + averageSpeedAtNight.ToString("F") + " m/s"
                     :
-                    Localizer.Format("#LOC_BV_Control_WheelsNotOnline")
+                    Localizer.Format("#LOC_BV_Control_BoatNotOnline")
             };
             displayedSystemCheckResults.Add(result);
 
@@ -400,6 +391,7 @@ namespace BonVoyage
                 {
                     continue;
                 }
+                engines.Add(engine);
             }
 
             for (int i = 0; i < engines.Count; i++)
@@ -407,32 +399,26 @@ namespace BonVoyage
                 var engine = engines[i];
                 double enginePower = 0;
 
-                if (engine.EngineIgnited)
+                if (engine.isOperational)
                 {
 
                     bool engineIsElectric = false;
                     bool engineIsFan = true;
-                    bool engineIsSatisfied = true;
 
                     foreach (var propellant in engine.propellants)
                     {
                         if (propellant.name == "ElectricCharge")
                         {
                             engineIsElectric = true;
-                            double fuelFlow = Mathf.Lerp(engine.minFuelFlow, engine.maxFuelFlow, engine.thrustPercentage / 100);
-                            enginePower = fuelFlow * propellant.ratio / engine.ratioSum;
+                            enginePower = engine.getMaxFuelFlow(propellant);
                         }
-                        else if (propellant.name != "FSCoolant" || propellant.name != "IntakeAir" || propellant.name != "IntakeAtm" || propellant.name != "IntakeLqd")
+                        else if (!(propellant.name == "FSCoolant" || propellant.name == "IntakeAir" || propellant.name == "IntakeAtm" || propellant.name == "IntakeLqd"))
                         {
                             engineIsFan = false;
-
-                            if (propellant.totalResourceAvailable < 0)
-                                engineIsSatisfied = false;
                         }
                     }
 
-                    if (engineIsSatisfied)
-                        online++;
+                    online++;
 
                     if (engineIsElectric && engineIsFan)
                     {
