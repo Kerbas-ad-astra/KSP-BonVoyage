@@ -145,13 +145,15 @@ namespace BonVoyage
         private string GetSpeed(int controllerIndex)
         {
             string result = "-";
-            BVController controller = BonVoyage.Instance.BVControllers[controllerIndex];
-
-            if ((controller.GetVesselState() == VesselState.Moving) || (controller.GetVesselState() == VesselState.AwaitingSunlight))
+            if (controllerIndex < BonVoyage.Instance.BVControllers.Count)
             {
-                result = controller.AverageSpeed.ToString("0.##") + " m/s";
-            }
+                BVController controller = BonVoyage.Instance.BVControllers[controllerIndex];
 
+                if ((controller.GetVesselState() == VesselState.Moving) || (controller.GetVesselState() == VesselState.AwaitingSunlight))
+                {
+                    result = controller.AverageSpeed.ToString("0.##") + " m/s";
+                }
+            }
             return result;
         }
 
@@ -164,13 +166,15 @@ namespace BonVoyage
         private string GetDistanceToTarget(int controllerIndex)
         {
             string result = "-";
-            BVController controller = BonVoyage.Instance.BVControllers[controllerIndex];
-
-            if ((controller.GetVesselState() == VesselState.Moving) || (controller.GetVesselState() == VesselState.AwaitingSunlight))
+            if (controllerIndex < BonVoyage.Instance.BVControllers.Count)
             {
-                result = Tools.ConvertDistanceToText(controller.RemainingDistanceToTarget);
-            }
+                BVController controller = BonVoyage.Instance.BVControllers[controllerIndex];
 
+                if ((controller.GetVesselState() == VesselState.Moving) || (controller.GetVesselState() == VesselState.AwaitingSunlight))
+                {
+                    result = Tools.ConvertDistanceToText(controller.RemainingDistanceToTarget);
+                }
+            }
             return result;
         }
 

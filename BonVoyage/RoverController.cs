@@ -446,14 +446,7 @@ namespace BonVoyage
                     {
                         powerRequired += wheelMotor.avgResRate;
                         online++;
-                        double maxWheelSpeed = 0;
-
-                        // RoveMax M1 and RoveMax M1-F (Making History expansion) don't have max wheels speed defined, so we just set it to something sensible
-                        if ((wheelMotor.part.name == "roverWheel1") || (wheelMotor.part.name == "roverWheelM1-F "))
-                            maxWheelSpeed = 42;
-                        else
-                            maxWheelSpeed = wheelMotor.wheelSpeedMax;
-                        maxSpeedSum += maxWheelSpeed;
+                        maxSpeedSum += wheelMotor.GetMaxSpeed();
                     }
                 }
             }
@@ -543,11 +536,11 @@ namespace BonVoyage
                     if (!(bool)wheelTracks.Fields.GetValue("motorLocked"))
                     {
                         online += 2;
-                        powerRequired += (float)wheelTracks.Fields.GetValue("maxECDraw") * (float)wheelMotor.Fields.GetValue("motorOutput") / 100; // Motor output can be limited by a slider
+                        powerRequired += (float)wheelTracks.Fields.GetValue("maxECDraw") * (float)wheelTracks.Fields.GetValue("motorOutput") / 100; // Motor output can be limited by a slider
                         if (maxSafeSpeed > 0)
-                            maxSpeedSum += 2 * Math.Min((float)wheelMotor.Fields.GetValue("maxDrivenSpeed"), maxSafeSpeed);
+                            maxSpeedSum += 2 * Math.Min((float)wheelTracks.Fields.GetValue("maxDrivenSpeed"), maxSafeSpeed);
                         else
-                            maxSpeedSum += 2 * (float)wheelMotor.Fields.GetValue("maxDrivenSpeed");
+                            maxSpeedSum += 2 * (float)wheelTracks.Fields.GetValue("maxDrivenSpeed");
                     }
                 }
             }
@@ -837,19 +830,22 @@ namespace BonVoyage
                         || (batteries.ECPerSecondGenerated - fuelCells.OutputValue <= 0)
                         || (batteries.CurrentEC < batteries.MaxUsedEC))) // Night, not enough solar power or we need to recharge batteries
                 {
-                    var iList = fuelCells.InputResources;
-                    for (int i = 0; i < iList.Count; i++)
+                    if (!((angle > 90) && (batteries.CurrentEC == 0))) // Don't use fuel cells, if it's night and current EC of batteries is zero. This means, that there isn't enough power to recharge them and fuel is wasted.
                     {
-                        iList[i].CurrentAmountUsed += iList[i].Ratio * deltaT;
-                        if (iList[i].CurrentAmountUsed > iList[i].MaximumAmountAvailable)
-                            deltaTOver = Math.Max(deltaTOver, (iList[i].CurrentAmountUsed - iList[i].MaximumAmountAvailable) / iList[i].Ratio);
-                    }
-                    if (deltaTOver > 0)
-                    {
-                        deltaT -= deltaTOver;
-                        // Reduce the amount of used resources
+                        var iList = fuelCells.InputResources;
                         for (int i = 0; i < iList.Count; i++)
-                            iList[i].CurrentAmountUsed -= iList[i].Ratio * deltaTOver;
+                        {
+                            iList[i].CurrentAmountUsed += iList[i].Ratio * deltaT;
+                            if (iList[i].CurrentAmountUsed > iList[i].MaximumAmountAvailable)
+                                deltaTOver = Math.Max(deltaTOver, (iList[i].CurrentAmountUsed - iList[i].MaximumAmountAvailable) / iList[i].Ratio);
+                        }
+                        if (deltaTOver > 0)
+                        {
+                            deltaT -= deltaTOver;
+                            // Reduce the amount of used resources
+                            for (int i = 0; i < iList.Count; i++)
+                                iList[i].CurrentAmountUsed -= iList[i].Ratio * deltaTOver;
+                        }
                     }
                 }
 
