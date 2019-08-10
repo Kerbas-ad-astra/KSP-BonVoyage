@@ -2,6 +2,35 @@
 Automagic Industries brings you a new autopilot, which reduces driving accidents by 100%.
 
 # Changelog
+## 0.14.8
+### Changes
+- KSP 1.7.2 compatible
+- Fuel cells are switched off during a night, when they don't have enough power to recharge batteries (when they are used as a complement to solar panels), to not waste a fuel.
+
+
+## 0.14.7
+### Fixes
+- Fixed null ref for the new game
+- Fixed loading of controllers into the main window
+- Fixed issue with control window moving out of screen
+- Max speed of stock wheels (including Making History wheels) is reported properly
+
+
+## 0.14.6
+### Fixes
+- Some nullrefs and indexes out of range were fixed
+- Fixed max speed check for Making History expansion foldable wheels (typo in the name of wheels)
+
+
+## 0.14.5
+### Fixes
+- Fixed bulk profile category
+- Fixed compatibility with KSPWheelTracks
+
+### Changes
+- Recompile for KSP 1.7.1
+
+
 ## 0.14.4
 - Recompile for KSP 1.7
 

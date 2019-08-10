@@ -38,11 +38,11 @@ namespace BonVoyage
         internal static RectOffset controlElementPadding = new RectOffset(5, 5, 10, 10);
         internal const float controlWindowSpacing = 3f;
         internal const float controlMinWidth = 201f;
-        internal const float controlMinHeight = 190f;
+        internal const float controlMinHeight = 370f;
         internal const float controlWindowWidth = controlMinWidth + 20f;
         internal const float controlWindowHeight = controlMinHeight + 20f;
-        internal static readonly Vector2 controlWindowAnchorMin = new Vector2(0.5f, 1f);
-        internal static readonly Vector2 controlWindowAnchorMax = new Vector2(0.5f, 1f);
+        internal static readonly Vector2 controlWindowAnchorMin = new Vector2(0.5f, 0.5f);
+        internal static readonly Vector2 controlWindowAnchorMax = new Vector2(0.5f, 0.5f);
         internal static Vector2 ControlWindowPosition = new Vector2(0.5f, 0.5f);
 
         internal static RectOffset boxPadding = new RectOffset(4, 4, 4, 4);
